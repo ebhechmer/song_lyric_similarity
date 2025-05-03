@@ -21,6 +21,7 @@ song-theme-similarity/
 │  ├─ 01_data_prep.ipynb         # Load, clean, stratified sampling
 │  ├─ 02_compute_embeddings.ipynb# Compute and save SBERT embeddings
 │  └─ 03_similarity_analysis.ipynb# Similarity, clustering, classification, UMAP
+│  └─ 04_plots.ipynb# All remaining plots that were found in the poster
 ├─ src/                           # Helper modules
 │  ├─ data_loader.py             # Chunked load, filter, clean, sample
 │  └─ embeddings.py              # SBERT embedding functions
@@ -43,7 +44,7 @@ song-theme-similarity/
 1. **Clone the repo:**
 
    ```bash
-   git clone https://github.com/youruser/song-theme-similarity.git
+   git clone https://github.com/ebhechmer/song-theme-similarity.git
    cd song-theme-similarity
    ```
 
@@ -86,7 +87,3 @@ song-theme-similarity/
 
    - Edit `report.md`, then convert to PDF if desired.
    - Open `poster.pdf` for final poster.
-
-## License
-
-This project is licensed under the MIT License.
