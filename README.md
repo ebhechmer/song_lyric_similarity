@@ -1,60 +1,92 @@
 # Measuring Song Lyric Theme Similarity Using Sentence-BERT Embeddings
 
-## 1. Project Overview
+## Overview
 
-This project investigates whether Sentence-BERT embeddings of song lyrics can capture thematic similarity—measured via cosine similarity—and how that aligns with genre labels.
+This project investigates whether pre-trained Sentence-BERT (SBERT) embeddings can capture thematic similarity in song lyrics. We use cosine similarity between 768-dimensional SBERT vectors to quantify thematic relatedness, compare within- and across-genre pairs, and evaluate how well unsupervised clustering and simple classification recover genre labels.
 
-## 2. Scientific Questions
+## Features
 
-1. Do pre-trained Sentence-BERT embeddings reflect the semantic/themes of lyrics?
-2. Can cosine similarity between lyrics embeddings serve as a proxy for “theme similarity”?
-3. How do embedding-based similarities compare within vs. across the six provided genres?
+- **Data Preparation:** Filters the Genius Song Lyrics dataset (\~5.1M songs) to English, cleans bracketed markers, and stratified-samples 30K songs (5K per genre).
+- **Embedding Computation:** Computes SBERT embeddings (`all-mpnet-base-v2`) on Apple M2 MPS or CPU.
+- **Similarity Analysis:** Generates boxplots and bar charts comparing within- vs. across-genre cosine similarities.
+- **Clustering:** Applies K-means (k=6), reports Adjusted Rand Index and silhouette score, and visualizes a confusion heatmap.
+- **Classification:** Trains k-NN and logistic regression, presents per-genre precision/recall/F1 and overall performance.
+- **Visualization:** Projects embeddings into 2D via UMAP, displays side-by-side maps colored by true genre and cluster.
 
-## 3. Dataset
-
-We use the “Genius Song Lyrics” CSV (~5.1 M rows), filtering to English only.
-
-- **File:** `data/song_lyrics.csv`
-- **Key columns:**
-  - `tag` (genre)
-  - `language`
-  - `lyrics`
-
-## 4. Project Structure
+## Project Structure
 
 ```
 song-theme-similarity/
-├─ notebooks/         ← exploratory & analysis notebooks
-│  └─ 01_data_prep.ipynb
-├─ src/               ← helper modules
-│  └─ data_loader.py
-├─ data/              ← raw & processed data
-├─ results/           ← embeddings, similarity matrices, plots
-├─ README.md
-└─ requirements.txt
+├─ notebooks/                     # Jupyter notebooks
+│  ├─ 01_data_prep.ipynb         # Load, clean, stratified sampling
+│  ├─ 02_compute_embeddings.ipynb# Compute and save SBERT embeddings
+│  └─ 03_similarity_analysis.ipynb# Similarity, clustering, classification, UMAP
+├─ src/                           # Helper modules
+│  ├─ data_loader.py             # Chunked load, filter, clean, sample
+│  └─ embeddings.py              # SBERT embedding functions
+├─ data/                          # Raw & processed datasets
+│  ├─ song_lyrics.csv            # Original Genius lyrics
+│  ├─ sample_stratified.csv      # 30K stratified sample
+├─ results/                       # Analysis outputs
+│  ├─ embeddings_stratified.npy  # Saved embeddings
+│  ├─ metadata_stratified.csv    # Corresponding genres
+│  ├─ analysis_summary.csv       # Summary metrics
+│  └─ plots/                      # Generated figures (PDF/PNG)
+├─ report.md                      # Project report markdown
+├─ poster.pdf                     # Final poster layout (PDF)
+├─ README.md                      # This file
+└─ requirements.txt               # Python dependencies
 ```
 
-## 5. Getting Started
+## Installation
 
-1. **Create a virtual environment and install dependencies:**
+1. **Clone the repo:**
+
+   ```bash
+   git clone https://github.com/youruser/song-theme-similarity.git
+   cd song-theme-similarity
+   ```
+
+2. **Create a virtual environment** (Python 3.9+):
+
    ```bash
    python3 -m venv venv
    source venv/bin/activate
+   ```
+
+3. **Install dependencies:**
+
+   ```bash
    pip install -r requirements.txt
    ```
-2. **Download the dataset:** place `song_lyrics.csv` into `data/`.
-3. **Launch the first notebook for data preparation:**
+
+4. **Download dataset:** place `song_lyrics.csv` into `data/` (see Kaggle).
+
+## Usage
+
+1. **Prepare data:**
+
    ```bash
    jupyter lab notebooks/01_data_prep.ipynb
    ```
 
-## 6. Next Steps
+2. **Compute embeddings:**
 
-- **Data Preparation:**
-  - Filter to `language == 'en'`
-  - Remove bracketed section markers (e.g. `[Chorus]`)
-  - Collapse extra newlines
-- **Embeddings:** compute SBERT vectors in batches, save to `results/`
-- **Analysis:** generate cosine-similarity stats within vs. across genres
-- **Visualization:** t-SNE/UMAP plots, similarity heatmaps, boxplots
-- **Reporting:** compile findings in `report.md` and design poster
+   ```bash
+   jupyter lab notebooks/02_compute_embeddings.ipynb
+   ```
+
+3. **Run analyses & plots:**
+
+   ```bash
+   jupyter lab notebooks/03_similarity_analysis.ipynb
+   ```
+
+4. **Generate report & poster:**
+
+   - Edit `report.md`, then convert to PDF if desired.
+   - Open `poster.pdf` for final poster.
+
+## License
+
+This project is licensed under the MIT License.
