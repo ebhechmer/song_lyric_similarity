@@ -1,0 +1,2 @@
+genre,within_mean,across_mean,kmeans_ari,kmeans_silhouette,knn_acc,lr_acc
+"['country', 'misc', 'pop', 'rap', 'rb', 'rock']",[Ellipsis],[Ellipsis],0.1636224416000168,0.05713909,0.5170000000000001,0.5927083333333333
